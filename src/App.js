@@ -35,12 +35,16 @@ export default function App() {
     }
   }
 
-  function removeTransactionItem(removingItemId, amount) {
+  function removeTransactionItem(removingItemId, amount, type) {
     setTransactions((prev) =>
       prev.filter((item) => item.id !== removingItemId)
     );
 
-    setBalance((prev) => prev + amount);
+    if (type === "income") {
+      setBalance((prev) => prev - amount);
+    } else {
+      setBalance((prev) => prev + amount);
+    }
   }
 
   return (
@@ -168,7 +172,9 @@ function TransactionItem({ id, type, amount, desc, date, onClick }) {
   function handleClick() {
     const removeItemID = id;
     const removeItemIDAmount = amount;
-    onClick(removeItemID, removeItemIDAmount);
+    const removeItemType = type;
+    
+    onClick(removeItemID, removeItemIDAmount, type);
   }
 
   return (
